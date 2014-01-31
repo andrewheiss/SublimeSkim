@@ -13,8 +13,11 @@ import re
 #  from .Edit import Edit as Edit 
 #  with Edit(self.view) as edit:
 #    edit.replace(region, cleaned)
+#
+# But the helper class breaks on ST2. So this now does it both ways. Which is lame.
 
-from .Edit import Edit as Edit 
+if sublime.version().startswith('3'):
+    from .Edit import Edit as Edit 
 
 # Clean page numbers from notes exported from Skim
 class CleanNumbersCommand(sublime_plugin.TextCommand):
@@ -75,8 +78,11 @@ class CleanSpreadNumbersCommand(sublime_plugin.TextCommand):
                         else:
                             cleaned += line + "\n"
                     
-                    with Edit(self.view) as edit:
-                        edit.replace(region, cleaned)
+                    if sublime.version().startswith('2'):
+                        self.view.replace(edit, region, cleaned)
+                    else:
+                        with Edit(self.view) as edit1:
+                            edit1.replace(region, cleaned)
 
         self.view.window().show_input_panel("First absolute page number:", '', clean_spreads, None, None)     
 
@@ -105,8 +111,10 @@ class FixPageNumbers(sublime_plugin.TextCommand):
                         else:
                             cleaned += line + "\n"
 
-                    with Edit(self.view) as edit:
-                        edit.replace(region, cleaned)
-                    # self.view.replace(edit, region, cleaned)
+                    if sublime.version().startswith('2'):
+                        self.view.replace(edit, region, cleaned)
+                    else:
+                        with Edit(self.view) as edit1:
+                            edit1.replace(region, cleaned)
 
-        self.view.window().show_input_panel("First page number in PDF:", '', fix_pages, None, None)     
+        self.view.window().show_input_panel("First page number in PDF:", '', fix_pages, None, None)
