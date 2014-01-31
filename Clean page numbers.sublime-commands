@@ -1,0 +1,14 @@
+[
+    {
+        "caption": "Skim: Clean page numbers",
+        "command": "clean_numbers"
+    },
+    {
+        "caption": "Skim: Renumber single pages",
+        "command": "fix_page_numbers"
+    },
+    {
+        "caption": "Skim: Renumber spreads",
+        "command": "clean_spread_numbers"
+    }
+]
