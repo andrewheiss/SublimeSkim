@@ -1,7 +1,7 @@
 # Sublime Skim
 
-* Version: 1.0.1
-* Date: January 30, 2014
+* Version: 1.1.0
+* Date: January 31, 2014
 
 This package provides helper functions for cleaning PDF notes exported from [Skim](http://skim-app.sourceforge.net/). It comes with the following commands:
 
@@ -125,7 +125,6 @@ into
 
 ## Known issues
 
-* "Clean page numbers" will choke on articles from JSTOR, since they number their pages with a `p.` prefix, making note headers like `* Text Note, page p. 1`. Find all ` p. `s and replace with nothing before cleaning the page numbers. 
 * "Clean page numbers" only takes care of a subset of potential PDF annotations: Text Note, Anchored Note, and Highlight.
 * "Renumber single pages" isn't necessary if the PDF is numbered correctly internally (like with Acrobat).
 * "Renumber spreads" is experimental and totally confusing and needs negative numbers (for now) to work right. It takes a lot of unnecessary trial and error to make it work right. It needs significant improvements.

@@ -29,10 +29,11 @@ class CleanNumbersCommand(sublime_plugin.TextCommand):
             if not region.empty():
                 # Find/replace all the Skim junk (* Text Note, page 5) with cleaner text (5 - )
                 text = self.view.substr(region)
-                text = re.sub("\\* Text Note, page (\\d{1,5})\\n", "\\1 - ", text)
-                text = re.sub("\\* Anchored Note, page (\\d{1,5})\\n", "\\1 - ", text)
+                # (p\\. *)* checks for JSTOR's p. prefix
+                text = re.sub("\\* Text Note, page (p\\. *)*(\\d{1,5})\\n", "\\2 - ", text)
+                text = re.sub("\\* Anchored Note, page (p\\. *)*(\\d{1,5})\\n", "\\2 - ", text)
                 # text = re.sub("\\* Highlight, page (\\d{1,5})\\n", "\\1 - ", text)
-                text = re.sub("\\* Highlight, page (\\d{1,5})\\n(.*)\\n", "\\1 - \"\\2\"\\n", text)
+                text = re.sub("\\* Highlight, page (p\\. *)*(\\d{1,5})\\n(.*)\\n", "\\2 - \"\\3\"\\n", text)
 
                 # for line in self.view.substr(region).splitlines():
                 for line in text.splitlines():
