@@ -29,6 +29,7 @@ class CleanNumbersCommand(sublime_plugin.TextCommand):
             if not region.empty():
                 # Find/replace all the Skim junk (* Text Note, page 5) with cleaner text (5 - )
                 text = self.view.substr(region)
+
                 # (p\\. *)* checks for JSTOR's p. prefix
                 text = re.sub("\\* Text Note, page (p\\. *)*(\\d{1,5})\\n", "\\2 - ", text)
                 text = re.sub("\\* Anchored Note, page (p\\. *)*(\\d{1,5})\\n", "\\2 - ", text)
@@ -37,6 +38,7 @@ class CleanNumbersCommand(sublime_plugin.TextCommand):
 
                 # for line in self.view.substr(region).splitlines():
                 for line in text.splitlines():
+                    # line = re.sub("(\\d+ - )\\n#", "\\n\\1#", line)
                     check_for_digits = digits.match(line)
 
                     if check_for_digits:
@@ -50,6 +52,10 @@ class CleanNumbersCommand(sublime_plugin.TextCommand):
                             cleaned += line + '\n'
                     else:
                         cleaned += line + '\n'
+
+                # Add space before Markdown H1s
+                cleaned = re.sub("(\\d{1,5}) - \\n#", "\\n\\1 - #", cleaned)
+
                 self.view.replace(edit, region, cleaned.rstrip('\n'))  # rstrip removes trailing newlines
 
 
